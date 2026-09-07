@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Excel add-in that encrypts selected columns so staff can edit other cells without seeing names or card numbers.",
   "license": "MIT",
+  "homepage": "https://ahmadtech2.github.io/Encryptaddin/",
   "config": {
     "app_to_debug": "excel",
     "app_type_to_debug": "desktop",

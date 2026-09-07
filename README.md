@@ -34,6 +34,18 @@ This is strong cryptography for a spreadsheet workflow. It is **not** a substitu
 
 **Card numbers:** PCI DSS generally does not allow full PANs to live in Excel, even encrypted, and then be emailed around. Confirm with your compliance team. Prefer tokens from your card processor when that is an option.
 
+## Install (any Mac or Windows Excel)
+
+The add-in is hosted on GitHub Pages. Download the production manifest and upload it once per machine:
+
+1. Open [https://ahmadtech2.github.io/Encryptaddin/](https://ahmadtech2.github.io/Encryptaddin/) and download `manifest.xml`.
+2. In Excel: **Insert → Add-ins → My Add-ins → Upload My Add-in**.
+3. Choose that XML file. **Secure Columns** appears on the Home tab.
+
+Excel must be able to reach `https://ahmadtech2.github.io`. Recipients of an encrypted workbook still do not need the add-in.
+
+For company-wide rollout, deploy the same hosted manifest through Microsoft 365 admin center (Integrated apps).
+
 ## Install (developer)
 
 Requirements: Node.js 20+, Excel for Windows, Mac, or Excel on the web.
@@ -44,11 +56,9 @@ npm run build
 npm start
 ```
 
-`npm start` trusts a local HTTPS cert and sideloads `manifest.xml`. The first time, accept the office-addin-dev-certs prompt.
+`npm start` trusts a local HTTPS cert and sideloads the localhost `manifest.xml`. The first time, accept the office-addin-dev-certs prompt.
 
-To sideload by hand in Excel on the web or desktop: **Insert → Add-ins → Upload my add-in** and choose `manifest.xml`, with `npm run dev-server` running.
-
-For production, host the `dist/` files on HTTPS and replace `https://localhost:3000/` in `manifest.xml`, then deploy the manifest through Microsoft 365 admin center (Integrated apps) so only managers get the add-in.
+To sideload a local build by hand: **Insert → Add-ins → Upload my add-in** and choose `manifest.xml`, with `npm run dev-server` running.
 
 ## Recipients
 

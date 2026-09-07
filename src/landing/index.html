@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Secure Columns — Excel add-in</title>
+    <style>
+      :root {
+        --navy: #0b1f3a;
+        --ink: #12233d;
+        --muted: #5b6b7c;
+        --line: #d7deea;
+        --paper: #f6f8fb;
+        --card: #ffffff;
+        --teal: #1f8a70;
+        --teal-dark: #176b57;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+        line-height: 1.5;
+      }
+      main { max-width: 720px; margin: 0 auto; padding: 32px 20px 64px; }
+      .hero { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 24px; }
+      .mark {
+        width: 44px; height: 44px; border-radius: 10px; background: var(--navy);
+        color: #fff; display: grid; place-items: center; font-weight: 700; flex: 0 0 auto;
+      }
+      h1 { margin: 0 0 4px; font-size: 26px; }
+      h2 { margin: 0 0 8px; font-size: 16px; }
+      p, li { color: var(--muted); font-size: 15px; }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 16px 18px;
+        margin-bottom: 14px;
+      }
+      .actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 8px; }
+      a.button {
+        display: inline-block;
+        text-decoration: none;
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 14px;
+        min-height: 40px;
+      }
+      .primary { background: var(--teal); color: #fff; }
+      .primary:hover { background: var(--teal-dark); }
+      .ghost { background: #e8eef5; color: var(--navy); }
+      ol { margin: 8px 0 0; padding-left: 20px; }
+      code, .url {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 13px;
+        word-break: break-all;
+        color: var(--ink);
+      }
+      .url {
+        display: block;
+        margin-top: 8px;
+        padding: 8px 10px;
+        background: var(--paper);
+        border-radius: 8px;
+        border: 1px solid var(--line);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header class="hero">
+        <div class="mark" aria-hidden="true">SC</div>
+        <div>
+          <h1>Secure Columns</h1>
+          <p>Excel add-in that encrypts selected columns before you share a workbook. Recipients do not install anything.</p>
+        </div>
+      </header>
+
+      <div class="actions">
+        <a class="button primary" href="manifest.xml" download="secure-columns-manifest.xml">Download manifest.xml</a>
+        <a class="button ghost" href="https://github.com/ahmadtech2/Encryptaddin">Source on GitHub</a>
+      </div>
+
+      <section class="card">
+        <h2>Install on Windows or Mac Excel</h2>
+        <ol>
+          <li>Download <code>manifest.xml</code> above.</li>
+          <li>Open Excel, then go to <strong>Insert → Add-ins → My Add-ins → Upload My Add-in</strong>.</li>
+          <li>Choose the downloaded XML file. <strong>Secure Columns</strong> appears on the Home tab.</li>
+        </ol>
+        <p>On some Mac builds the menu is <strong>Insert → Get Add-ins → Upload My Add-in</strong>. The computer must be online so Excel can load the hosted task pane.</p>
+      </section>
+
+      <section class="card">
+        <h2>Install in Excel on the web</h2>
+        <ol>
+          <li>Open the workbook in Excel on the web.</li>
+          <li>Choose <strong>Insert → Add-ins → Upload My Add-in</strong> and select the same <code>manifest.xml</code>.</li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <h2>Mac folder sideload (optional)</h2>
+        <p>Copy <code>manifest.xml</code> into Excel’s WEF folder, then restart Excel:</p>
+        <span class="url">~/Library/Containers/com.microsoft.Excel/Data/Documents/wef/</span>
+      </section>
+
+      <section class="card">
+        <h2>Hosted files</h2>
+        <p>Office loads these HTTPS URLs from any Mac or Windows machine:</p>
+        <span class="url">https://ahmadtech2.github.io/Encryptaddin/taskpane.html</span>
+        <span class="url">https://ahmadtech2.github.io/Encryptaddin/manifest.xml</span>
+      </section>
+    </main>
+  </body>
+</html>

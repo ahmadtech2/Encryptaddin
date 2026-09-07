@@ -107,13 +107,80 @@ async function unlock(): Promise<Session> {
   return next;
 }
 
+function confirmAction(options: { title: string; message: string; confirmLabel: string }): Promise<boolean> {
+  const overlay = $("confirm-overlay");
+  const dialog = overlay.querySelector(".confirm-dialog") as HTMLElement;
+  const title = $("confirm-title");
+  const message = $("confirm-message");
+  const ok = $("confirm-ok") as HTMLButtonElement;
+  const cancel = $("confirm-cancel") as HTMLButtonElement;
+  const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
+  title.textContent = options.title;
+  message.textContent = options.message;
+  ok.textContent = options.confirmLabel;
+  overlay.hidden = false;
+  ok.focus();
+
+  return new Promise((resolve) => {
+    const finish = (accepted: boolean) => {
+      overlay.hidden = true;
+      overlay.removeEventListener("click", onOverlay);
+      dialog.removeEventListener("click", stopDialogClick);
+      ok.removeEventListener("click", onOk);
+      cancel.removeEventListener("click", onCancel);
+      document.removeEventListener("keydown", onKey);
+      previous?.focus();
+      resolve(accepted);
+    };
+    const onOk = () => finish(true);
+    const onCancel = () => finish(false);
+    const onOverlay = (event: Event) => {
+      if (event.target === overlay) {
+        finish(false);
+      }
+    };
+    const stopDialogClick = (event: Event) => event.stopPropagation();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        finish(false);
+        return;
+      }
+      if (event.key !== "Tab") {
+        return;
+      }
+      const first = cancel;
+      const last = ok;
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    overlay.addEventListener("click", onOverlay);
+    dialog.addEventListener("click", stopDialogClick);
+    ok.addEventListener("click", onOk);
+    cancel.addEventListener("click", onCancel);
+    document.addEventListener("keydown", onKey);
+  });
+}
+
 async function runEncrypt(): Promise<void> {
   const targets = selectedTargets();
   if (targets.length === 0) {
     setStatus("Select at least one column.", "error");
     return;
   }
-  if (!window.confirm(`Encrypt ${targets.length} column(s)? Recipients will see only ENC1 tokens in those cells.`)) {
+  const accepted = await confirmAction({
+    title: "Encrypt columns",
+    message: `Encrypt ${targets.length} column(s)? Recipients will see only ENC1 tokens in those cells.`,
+    confirmLabel: "Encrypt",
+  });
+  if (!accepted) {
     return;
   }
   const { key, meta } = await unlock();
@@ -149,7 +216,12 @@ async function runRekey(): Promise<void> {
     setStatus("Enter the current passphrase above and the new passphrase in the change panel.", "error");
     return;
   }
-  if (!window.confirm("Re-encrypt every protected cell with the new passphrase?")) {
+  const accepted = await confirmAction({
+    title: "Change passphrase",
+    message: "Re-encrypt every protected cell with the new passphrase?",
+    confirmLabel: "Change passphrase",
+  });
+  if (!accepted) {
     return;
   }
   setStatus("Changing passphrase…");
