@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Secure Columns</title>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="taskpane.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="hero">
+        <div class="mark" aria-hidden="true">SC</div>
+        <div>
+          <h1>Secure Columns</h1>
+          <p>Encrypt names and card numbers before you send the workbook. Recipients can edit other cells without the add-in.</p>
+        </div>
+      </header>
+
+      <section class="card">
+        <label class="label" for="passphrase">Manager passphrase</label>
+        <div class="secret-row">
+          <input id="passphrase" type="password" autocomplete="off" spellcheck="false" placeholder="12+ character passphrase" />
+          <button id="toggle-secret" class="ghost" type="button">Show</button>
+        </div>
+        <div id="strength" class="hint">Use a long phrase you do not reuse. It is never stored in the file.</div>
+      </section>
+
+      <section class="card">
+        <div class="row">
+          <h2>Columns to protect</h2>
+          <button id="refresh-columns" class="ghost" type="button">Refresh</button>
+        </div>
+        <p class="hint">Headers come from the first row of the active sheet. Check names, card numbers, or any other sensitive columns.</p>
+        <div id="column-list" class="column-list"></div>
+      </section>
+
+      <section id="rekey-panel" class="card" hidden>
+        <label class="label" for="new-passphrase">New passphrase</label>
+        <input id="new-passphrase" type="password" autocomplete="off" spellcheck="false" placeholder="New 12+ character passphrase" />
+        <p class="hint">Uses the current passphrase above, then re-encrypts every token in the workbook with a new salt.</p>
+        <button id="confirm-rekey" class="secondary" type="button">Apply new passphrase</button>
+      </section>
+
+      <section class="actions">
+        <button id="encrypt" class="primary" type="button">Encrypt selected</button>
+        <button id="decrypt" class="secondary" type="button">Decrypt selected</button>
+        <button id="decrypt-all" class="ghost" type="button">Decrypt entire workbook</button>
+        <button id="rekey" class="ghost" type="button">Change passphrase</button>
+        <button id="lock" class="ghost" type="button">Lock session</button>
+      </section>
+
+      <p id="status" class="status" role="status"></p>
+    </main>
+  </body>
+</html>

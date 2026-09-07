@@ -1,0 +1,50 @@
+{
+  "name": "encryptaddin",
+  "version": "1.0.0",
+  "description": "Excel add-in that encrypts selected columns so staff can edit other cells without seeing names or card numbers.",
+  "license": "MIT",
+  "config": {
+    "app_to_debug": "excel",
+    "app_type_to_debug": "desktop",
+    "dev_server_port": 3000
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development",
+    "dev-server": "webpack serve --mode development",
+    "start": "office-addin-debugging start manifest.xml",
+    "stop": "office-addin-debugging stop manifest.xml",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "validate": "office-addin-manifest validate manifest.xml",
+    "icons": "node scripts/generate-icons.js"
+  },
+  "dependencies": {
+    "@noble/hashes": "^1.8.0",
+    "core-js": "^3.36.0",
+    "regenerator-runtime": "^0.14.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-typescript": "^7.26.0",
+    "@types/office-js": "^1.0.377",
+    "@types/office-runtime": "^1.0.35",
+    "babel-loader": "^9.2.1",
+    "copy-webpack-plugin": "^12.0.2",
+    "html-loader": "^5.1.0",
+    "html-webpack-plugin": "^5.6.3",
+    "office-addin-debugging": "^5.1.0",
+    "office-addin-dev-certs": "^1.13.0",
+    "office-addin-manifest": "^1.13.0",
+    "typescript": "^5.6.3",
+    "vitest": "^3.0.5",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.2.0"
+  }
+}
